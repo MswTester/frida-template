@@ -1,0 +1,24 @@
+{
+  "name": "frida-template",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "spawn": "frida -Uf com.nianticlabs.pokemongo -l dist/index.js",
+    "build": "frida-compile src/index.ts -o dist/index.js -c",
+    "watch": "frida-compile src/index.ts -o dist/index.js -w",
+    "antiroot": "frida -Uf com.nianticlabs.pokemongo -l src/antiroot.js",
+    "observe": "frida -Uf com.nianticlabs.pokemongo -l src/observe.js",
+    "bypass": "frida -Uf com.nianticlabs.pokemongo -l src/bypass.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "description": "",
+  "devDependencies": {
+    "@types/frida-gum": "^18.7.2",
+    "frida-compile": "^16.4.1",
+    "frida-il2cpp-bridge": "^0.9.1",
+    "typescript": "^5.7.3"
+  }
+}

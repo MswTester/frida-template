@@ -1,5 +1,5 @@
 import 'frida-il2cpp-bridge';
-import { sleep, getActivity, ensureModuleInitialized, JavaIl2cppPerform } from './util.js';
+import { sleep, getActivity, ensureModuleInitialized, JavaIl2cppPerform, searchJavaClass, searchJavaMethod } from './util.js';
 
 const APP_MAIN_ACTIVITY = 'com.nianticproject.holoholo.libholoholo.unity.UnityMainActivity';
 

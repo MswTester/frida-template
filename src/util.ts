@@ -31,23 +31,3 @@ export function JavaIl2cppPerform (callback: () => void): void{
         Il2Cpp.perform(callback);
     });
 }
-
-export function searchJavaClass (className: string): string[] {
-    let results: string[] = [];
-    Java.enumerateLoadedClassesSync().forEach((cls) => {
-        if(cls.match(className)){
-            results.push(cls);
-        }
-    });
-    return results;
-}
-
-export function searchJavaMethod (classWrapper: Java.Wrapper, methodName: string): string[] {
-    let results: string[] = [];
-    classWrapper.forEach((method) => {
-        if(method.toString().match(methodName)){
-            results.push(method);
-        }
-    });
-    return results;
-}

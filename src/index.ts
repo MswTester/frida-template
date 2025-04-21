@@ -1,5 +1,5 @@
 import 'frida-il2cpp-bridge';
-import { sleep, getActivity, ensureModuleInitialized, JavaIl2cppPerform, searchJavaClass, searchJavaMethod } from './util.js';
+import { sleep, getActivity, ensureModuleInitialized, JavaIl2cppPerform } from './util.js';
 
 const APP_MAIN_ACTIVITY = 'com.nianticproject.holoholo.libholoholo.unity.UnityMainActivity';
 
@@ -20,4 +20,9 @@ JavaIl2cppPerform(async () => {
 
 async function main(mainActivity: Java.Wrapper) {
 	console.log("Activity:", mainActivity);
+
+	const Menu = Java.use('com.maars.fmenu.Menu');
+	const Config = Java.use('com.maars.fmenu.Config');
+	const Bool = Java.use('com.maars.fmenu.PBoolean');
+	const Int = Java.use('com.maars.fmenu.PInteger');
 }

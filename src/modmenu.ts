@@ -1,4 +1,3 @@
-import { Color } from "./classes";
 
 interface IModMenu {
     Menu: Java.Wrapper;
@@ -9,7 +8,7 @@ interface IModMenu {
 }
 
 function getColor(color: string): number {
-    return Color.parseColor(color);
+    return Java.use('android.graphics.Color').parseColor(color);
 }
 
 export function getModMenu(): IModMenu {

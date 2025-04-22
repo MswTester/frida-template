@@ -1,14 +1,18 @@
-import { Color, PorterDuff$Mode, View } from './classes.js';
 import { config } from './config.js';
+import { Overlay } from './overlay.js';
 import { sleep, getActivity, ensureModuleInitialized } from './util.js';
 import 'frida-il2cpp-bridge';
 
 const modules = config.USE_IL2CPP
 	? ["libil2cpp.so", "libunity.so", "libmain.so"]
-	: ["libmain.so"];
+	: [];
 
 async function setupOverlayView() {
 	if (!config.USE_OVERLAY) return;
+
+	const View = Java.use('android.view.View');
+	const Color = Java.use('android.graphics.Color');
+	const PorterDuff$Mode = Java.use('android.graphics.PorterDuff$Mode');
 
 	Java.registerClass({
 		name: 'com.ftemp.OverlayView',
@@ -36,7 +40,8 @@ async function setupOverlayView() {
 }
 
 async function initialize() {
-	await ensureModuleInitialized(...modules);
+	await sleep(1000); // Wait for the app to load
+	config.USE_IL2CPP && (await ensureModuleInitialized(...modules));
 
 	const activity = await getActivity(config.MAIN_ACTIVITY);
 	if (!activity) {
@@ -54,4 +59,9 @@ Java.perform(() => {
 
 export default async function main(mainActivity: Java.Wrapper) {
 	console.log("Activity:", mainActivity);
+
+	const overlay = new Overlay(mainActivity, (self) => {
+		// Ticker function to be called every frame
+		self.camera.position.x += 0.1; // Example: Move camera position
+	});
 }

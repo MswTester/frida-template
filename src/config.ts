@@ -1,5 +1,5 @@
 export const config = {
-    MAIN_ACTIVITY: 'com.example.app.MainActivity',
+    MAIN_ACTIVITY: 'org.cocos2dx.cpp.AppActivity',
     USE_IL2CPP: false,
     USE_OVERLAY: true,
 }

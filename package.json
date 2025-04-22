@@ -2,7 +2,7 @@
   "name": "frida-template",
   "version": "1.0.0",
   "main": "index.js",
-  "appId": "com.example.app",
+  "appId": "com.gameparadiso.milkchoco",
   "scripts": {
     "spawn": "node -e \"require('child_process').spawn('frida', ['-Uf', require('./package.json').appId, '-l', 'dist/index.js'], {stdio: 'inherit'})\"",
     "attach": "node -e \"require('child_process').spawn('frida', ['-U', '-N', require('./package.json').appId, '-l', 'dist/index.js'], {stdio: 'inherit'})\"",

@@ -2,13 +2,12 @@
   "name": "frida-template",
   "version": "1.0.0",
   "main": "index.js",
+  "appId": "com.example.app",
   "scripts": {
-    "spawn": "frida -Uf com.nianticlabs.pokemongo -l dist/index.js",
+    "spawn": "node -e \"require('child_process').spawn('frida', ['-Uf', require('./package.json').appId, '-l', 'dist/index.js'], {stdio: 'inherit'})\"",
+    "attach": "node -e \"require('child_process').spawn('frida', ['-U', '-N', require('./package.json').appId, '-l', 'dist/index.js'], {stdio: 'inherit'})\"",
     "build": "frida-compile src/index.ts -o dist/index.js -c",
-    "watch": "frida-compile src/index.ts -o dist/index.js -w",
-    "antiroot": "frida -Uf com.nianticlabs.pokemongo -l src/antiroot.js",
-    "observe": "frida -Uf com.nianticlabs.pokemongo -l src/observe.js",
-    "bypass": "frida -Uf com.nianticlabs.pokemongo -l src/bypass.js"
+    "watch": "frida-compile src/index.ts -o dist/index.js -w"
   },
   "keywords": [],
   "author": "",
@@ -16,9 +15,9 @@
   "type": "commonjs",
   "description": "",
   "devDependencies": {
-    "@types/frida-gum": "^18.7.2",
-    "frida-compile": "^16.4.1",
+    "@types/frida-gum": "^18.8.2",
+    "frida-compile": "^16.4.2",
     "frida-il2cpp-bridge": "^0.9.1",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.3"
   }
 }

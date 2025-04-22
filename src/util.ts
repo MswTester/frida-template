@@ -20,7 +20,7 @@ export async function ensureModuleInitialized(...modules: string[]){
 
         if(!Module.getBaseAddress(md)){
             console.log(`Waiting for ${md} to be loaded`);
-            await sleep(500);
+            await sleep(200);
             modules.push(md);
         }
     }

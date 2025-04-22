@@ -1,28 +1,57 @@
+import { Color, PorterDuff$Mode, View } from './classes.js';
+import { config } from './config.js';
+import { sleep, getActivity, ensureModuleInitialized } from './util.js';
 import 'frida-il2cpp-bridge';
-import { sleep, getActivity, ensureModuleInitialized, JavaIl2cppPerform } from './util.js';
 
-const APP_MAIN_ACTIVITY = 'com.nianticproject.holoholo.libholoholo.unity.UnityMainActivity';
+const modules = config.USE_IL2CPP
+	? ["libil2cpp.so", "libunity.so", "libmain.so"]
+	: ["libmain.so"];
 
-const modules = ["libil2cpp.so", "libunity.so", "libmain.so"];
+async function setupOverlayView() {
+	if (!config.USE_OVERLAY) return;
 
-JavaIl2cppPerform(async () => {
-	await sleep(1000);
+	Java.registerClass({
+		name: 'com.ftemp.OverlayView',
+		superClass: View,
+		methods: {
+			$init: [{
+				returnType: 'void',
+				argumentTypes: ['android.content.Context'],
+				implementation(context: Java.Wrapper) {
+					this.$super.$init(context);
+					this.setFocusable(false);
+					this.setLayerType(View.LAYER_TYPE_SOFTWARE.value, null);
+					this.setBackgroundColor(Color.TRANSPARENT.value);
+				},
+			}],
+			clearCanvas: [{
+				returnType: 'void',
+				argumentTypes: ['android.graphics.Canvas'],
+				implementation(canvas: Java.Wrapper) {
+					canvas.drawColor(Color.TRANSPARENT.value, PorterDuff$Mode.CLEAR.value);
+				},
+			}],
+		},
+	});
+}
+
+async function initialize() {
 	await ensureModuleInitialized(...modules);
 
-	const activity = await getActivity(APP_MAIN_ACTIVITY);
+	const activity = await getActivity(config.MAIN_ACTIVITY);
 	if (!activity) {
-		console.error(`Could not find activity ${APP_MAIN_ACTIVITY}`);
+		console.error(`Could not find activity ${config.MAIN_ACTIVITY}`);
 		return;
 	}
 
-	main(activity).catch(console.error);
+	await setupOverlayView();
+	await main(activity);
+}
+
+Java.perform(() => {
+	initialize().catch(console.error);
 });
 
-async function main(mainActivity: Java.Wrapper) {
+export default async function main(mainActivity: Java.Wrapper) {
 	console.log("Activity:", mainActivity);
-
-	const Menu = Java.use('com.maars.fmenu.Menu');
-	const Config = Java.use('com.maars.fmenu.Config');
-	const Bool = Java.use('com.maars.fmenu.PBoolean');
-	const Int = Java.use('com.maars.fmenu.PInteger');
 }

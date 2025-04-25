@@ -60,7 +60,7 @@ export class Overlay {
   public rotationOffset: Vec2 = { x: 0, y: 0 };
   private _overlayView: Java.Wrapper;
   private _rootView: Java.Wrapper;
-  private _loopTimer: NodeJS.Timer;
+  private _loopTimer: NodeJS.Timer | null = null;
   private _loopInterval = 1000 / 60; // 60 FPS
   private _enableOverlay = true;
 
@@ -70,7 +70,9 @@ export class Overlay {
     const Color = Java.use('android.graphics.Color');
     const viewGroup = Java.use('android.view.ViewGroup');
 
-    this.rotationOffset = options.rotationOffset || { x: 0, y: 0 };
+    if (options){
+      this.rotationOffset = options.rotationOffset || { x: 0, y: 0 };
+    }
   
     this.TextPaint = this.createTextPaint(Color.parseColor("#FF00FF"));
     this.StrokePaint = this.createStrokePaint(Color.parseColor("#FF00FF"));

@@ -144,7 +144,7 @@ export class ModMenu {
     private _mainActivity: Java.Wrapper;
     private _menu: Java.Wrapper;
     private _config: MenuConfig;
-    private _datamap: Record<string, Java.Wrapper> = {};
+    private _datamap: Record<string, Java.Wrapper|null> = {};
 
     constructor(MainActivity: Java.Wrapper) {
         this._mainActivity = MainActivity;

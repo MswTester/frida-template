@@ -1,4 +1,5 @@
 import { config } from './config.js';
+import { ModMenu } from './modmenu.js';
 import { Overlay } from './overlay.js';
 import { sleep, getActivity, ensureModuleInitialized } from './util.js';
 import 'frida-il2cpp-bridge';
@@ -60,8 +61,11 @@ Java.perform(() => {
 export default async function main(mainActivity: Java.Wrapper) {
 	console.log("Activity:", mainActivity);
 
-	const overlay = new Overlay(mainActivity, (self) => {
-		// Ticker function to be called every frame
-		self.camera.position.x += 0.1; // Example: Move camera position
-	});
+	// const overlay = new Overlay(mainActivity, (self) => {
+	// 	// Ticker function to be called every frame
+	// 	self.camera.position.x += 0.1; // Example: Move camera position
+	// });
+
+	// const modmenu = new ModMenu(mainActivity);
+	// modmenu.createMenu();
 }
